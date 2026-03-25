@@ -63,11 +63,17 @@ async fn emergency_access_grant_rate_limiting_works() {
             )
             .await
             .expect("request failed");
-        
+
         responses.push(response.status());
     }
 
     // With burst of 2 and slow refill (1/min), at least some should be 429
-    let has_429 = responses.iter().any(|s| *s == StatusCode::TOO_MANY_REQUESTS);
-    assert!(has_429, "Expected at least one 429 Too Many Requests response, but got: {:?}", responses);
+    let has_429 = responses
+        .iter()
+        .any(|s| *s == StatusCode::TOO_MANY_REQUESTS);
+    assert!(
+        has_429,
+        "Expected at least one 429 Too Many Requests response, but got: {:?}",
+        responses
+    );
 }
