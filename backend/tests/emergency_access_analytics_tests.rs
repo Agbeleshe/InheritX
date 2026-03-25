@@ -58,11 +58,17 @@ async fn admin_can_fetch_emergency_access_metrics() {
     let data = &json["data"];
     assert!(data.get("totalGrants").is_some(), "missing totalGrants");
     assert!(data.get("activeGrants").is_some(), "missing activeGrants");
-    assert!(data.get("totalRevocations").is_some(), "missing totalRevocations");
+    assert!(
+        data.get("totalRevocations").is_some(),
+        "missing totalRevocations"
+    );
     assert!(data.get("totalAlerts").is_some(), "missing totalAlerts");
-    assert!(data.get("alertsBySeverity").is_some(), "missing alertsBySeverity");
+    assert!(
+        data.get("alertsBySeverity").is_some(),
+        "missing alertsBySeverity"
+    );
     assert!(data.get("grantTrend").is_some(), "missing grantTrend");
-    
+
     // Check trend structure
     if let Some(trend) = data["grantTrend"].as_array() {
         if !trend.is_empty() {

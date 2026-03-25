@@ -3552,14 +3552,16 @@ impl EmergencyAccessMetricsService {
         .fetch_one(db)
         .await?;
 
-        let total_revocations: i64 =
-            sqlx::query_scalar("SELECT COUNT(*) FROM emergency_access_grants WHERE revoked_at IS NOT NULL")
+        let total_revocations: i64 = sqlx::query_scalar(
+            "SELECT COUNT(*) FROM emergency_access_grants WHERE revoked_at IS NOT NULL",
+        )
+        .fetch_one(db)
+        .await?;
+
+        let total_alerts: i64 =
+            sqlx::query_scalar("SELECT COUNT(*) FROM emergency_access_risk_alerts")
                 .fetch_one(db)
                 .await?;
-
-        let total_alerts: i64 = sqlx::query_scalar("SELECT COUNT(*) FROM emergency_access_risk_alerts")
-            .fetch_one(db)
-            .await?;
 
         let alert_severity_rows: Vec<(String, i64)> = sqlx::query_as(
             "SELECT severity, COUNT(*) FROM emergency_access_risk_alerts GROUP BY severity",
